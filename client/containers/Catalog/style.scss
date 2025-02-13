@@ -1,0 +1,211 @@
+.catalogContainer {
+  width: 100%;
+  display: flex;
+
+  .filtersContainer {
+    width: 20%;
+    margin-top: 40px;
+
+    .headerFilters {
+      margin-left: 5%;
+      font-size: 30px;
+      font-family: "Montserrat", serif;
+      font-weight: 700;
+      color: rgb(0, 1, 41);
+    }
+
+    .sectionFilter {
+
+      .closedSection {
+        display: flex;
+        margin-top: 20px;
+
+        .imgArrow {
+          width: 20px;
+          height: 20px;
+          margin-left: auto;
+          margin-right: 10px;
+        }
+
+        .headerClosedSection {
+          margin-left: 5%;
+          font-size: 20px;
+          font-family: "Montserrat", serif;
+          font-weight: 700;
+          color: rgb(0, 1, 41);
+        }
+      }
+
+      .openSection {
+        display: flex;
+        padding-left: 5.8%;
+        margin-top: 10px;
+
+        .textCheckBox {
+          margin-left: 5px;
+          margin-left: 5px;
+          font-size: 15px;
+          font-family: "Montserrat", serif;
+          font-weight: 500;
+          color: rgb(0, 1, 41);
+        }
+      }
+    }
+  }
+
+  .verticalLine {
+    width: 1px;
+    /* Толщина линии */
+    height: 600px;
+    /* Высота линии */
+    background-color: rgb(233, 233, 233);
+  }
+
+  .catalogProductsContainer {
+    width: 80%;
+    margin-top: 40px;
+
+    .headerCatalogProducts {
+      margin-left: 5%;
+      font-size: 30px;
+      font-family: "Montserrat", serif;
+      font-weight: 700;
+      color: rgb(0, 1, 41);
+    }
+
+    .blockProductsInCatalog {
+      margin-left: 5%;
+      margin-top: 20px;
+    }
+
+    .blockCards {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .productMiniCard {
+      width: 300px;
+      border: 1px solid rgb(226, 226, 226);
+
+      .imgProductMiniCard {
+        width: 100%;
+      }
+
+      .infoProductMiniCard {
+        padding-bottom: 10px;
+
+        .miniTextInfo {
+          font-size: 12px;
+          font-family: "Montserrat", serif;
+          font-weight: 500;
+          color: rgb(163, 163, 163);
+          margin-top: 10px;
+          margin-left: 10px;
+        }
+
+        .namedProductText {
+          font-size: 17px;
+          font-family: "Montserrat", serif;
+          font-weight: 600;
+          color: rgb(0, 1, 41);
+          margin-top: 10px;
+          margin-left: 10px;
+        }
+
+        .priceText {
+          font-size: 12px;
+          font-family: "Montserrat", serif;
+          font-weight: 500;
+          color: rgb(163, 163, 163);
+          margin-top: 10px;
+          margin-left: 10px;
+        }
+
+        .numberPriceText {
+          font-size: 17px;
+          font-family: "Montserrat", serif;
+          font-weight: 600;
+          color: rgb(0, 1, 41);
+          margin-top: 10px;
+          margin-left: 10px;
+        }
+
+        .addToCartBtn {
+          width: 93.7%;
+          height: 40px;
+          margin-left: 10px;
+          margin-top: 10px;
+          transition: 0.2s;
+          text-align: center;
+          background-color: rgb(57, 88, 255);
+          font-size: 16px;
+          border: none;
+          font-family: "Montserrat", serif;
+          color: white;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1440px) {
+  .headerFilters {
+    font-size: 25px !important;
+  }
+
+  .headerClosedSection {
+    font-size: 17px !important;
+  }
+
+  .headerCatalogProducts {
+    font-size: 25px !important;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .productMiniCard {
+    width: 250px !important;
+    border: 1px solid rgb(226, 226, 226);
+  }
+}
+
+
+@media screen and (max-width: 425px) { 
+  .filtersContainer { 
+    width: 30% !important;
+  }
+
+  .headerFilters {
+    font-size: 15px !important;
+  }
+
+  .headerClosedSection {
+    font-size: 12px !important;
+  }
+
+  .textCheckBox {
+    font-size: 10px !important;
+  }
+
+  .headerCatalogProducts {
+    font-size: 15px !important;
+  }
+
+  .catalogProductsContainer { 
+    width: 70% !important;
+  }
+
+  .blockCards {
+    display: flex !important;
+    overflow-x: scroll !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .productMiniCard { 
+    width: 200px !important;
+  }
+
+  .addToCartBtn {
+  }
+}
