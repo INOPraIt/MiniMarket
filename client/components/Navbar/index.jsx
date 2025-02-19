@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 
 export default connect((s) => ({
   isLogined: s.user.logined,
+  productCart: s.cart.cart
 }), {
   loginUser,
   changeUserFieldAction
@@ -15,11 +16,15 @@ export default connect((s) => ({
     id,
     loginUser,
     isLogined,
+    productCart,
     changeUserFieldAction
   }) => {// стрелочная функция для React
     const [menuOpen, setMenuOpen] = React.useState(false); // Функции состояния в React, для того чтобы создовать какие-либо значения
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [cartCount, setCartCount] = React.useState(2);
+
+    console.log('cart in nav', productCart.length);
+    
 
       const notifyDrag = () => toast.error('Для того чтобы смотреть корзину - авторизируйтесь', {
         position: "top-right",
@@ -59,19 +64,17 @@ export default connect((s) => ({
             <div className="cart">
               <Link
                 to={"/cart"}>Корзина</Link>
-              <span className="cart-count">{cartCount}</span>
+              <span className="cart-count">{productCart.length}</span>
             </div>
             <div>
               <Link
                 style={{ textDecoration: 'none' }}
                 to={'/catalog'}
-
               >
                 <button className="login-btn">
                   Каталог
                 </button>
               </Link>
-
             </div>
             <div>
               <Link style={{ textDecoration: "none" }} to={'/login'}>

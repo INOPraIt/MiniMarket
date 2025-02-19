@@ -4,6 +4,7 @@
   "private": true,
   "author": "UNKNOWN",
   "dependencies": {
+    "@pbe/react-yandex-maps": "^1.2.5",
     "axios": "^1.5.1",
     "formik": "^2.4.5",
     "i18next": "^23.5.1",

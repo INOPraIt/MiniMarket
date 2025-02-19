@@ -7,30 +7,34 @@ import './style.scss';
 
 import arrow from '../../assets/images/icons/arrow.png';
 import example from '../../assets/images/categoris/1.png';
-import { getAllProducts } from '../../store/actions/product.action';
+import { getAllProducts, getProductFilterColorAndMaterial } from '../../store/actions/product.action';
 import { addProductToCart } from '../../store/actions/cart.action';
 
 export default connect(
   (s) => ({
     id: s.user.userId,
-    productData: s.product.state
+    productData: s.product.state,
+    productDataFilters: s.product.dataProductFilter
   }),
   {
     getAllProducts,
-    addProductToCart
+    addProductToCart,
+    getProductFilterColorAndMaterial
   }
-)(({ productData, getAllProducts, addProductToCart }) => {
-
-  const [section, setSection] = React.useState(true);
+)(({
+  productData,
+  getAllProducts,
+  addProductToCart,
+  getProductFilterColorAndMaterial,
+  productDataFilters
+}) => {
 
   React.useEffect(() => {
     getAllProducts();
   }, []);
 
-  console.log('Product data:', productData);
-
   const handleAddToCart = (product) => {
-    addProductToCart({ product }); // Добавляем товар в корзину
+    addProductToCart({ product });
     toast.success('Добавлено в корзину', {
       position: "top-right",
       autoClose: 3000,
@@ -42,6 +46,55 @@ export default connect(
       theme: "dark",
     });
   };
+
+  const [section, setSection] = React.useState(true);
+  const [sectionMat, setSectionMat] = React.useState(true);
+
+  const [selected, setSelected] = React.useState(null);
+  const [selectedColor, setSelectedColor] = React.useState(null);
+
+  const handleChangeColor = (color) => {
+    setSelectedColor(color);
+    console.log('Выбранный цвет:', color);
+  };
+
+  const handleChange = (material) => {
+    setSelected(material);
+    console.log('Выбранный материал:', material);
+  };
+
+  function filterBtn() {
+    getProductFilterColorAndMaterial({
+      color: selectedColor,
+      material: selected
+    })
+  }
+
+  const materialFilter = [
+    { material: 'Латунь' },
+    { material: 'Нержавеющая сталь' },
+    { material: 'Цинк, хромированная сталь' },
+    { material: 'Керамика; abs-пластик' },
+    { material: 'Нейлон, щетина, сталь' },
+    { material: 'Пластик, металл' },
+    { material: 'Металл' },
+    { material: 'Пластик' },
+    { material: 'Металл; сталь; полимерно-порошковое покрытие.' },
+  ]
+
+  const colorFilter = [
+    { color: 'Графит' },
+    { color: 'Сатин' },
+    { color: 'Черный' },
+    { color: 'Хром' },
+    { color: 'Металл' },
+    { color: 'Серый, серебристый' },
+    { color: 'Серебристый' },
+    { color: 'Золото' },
+    { color: 'Белый' },
+    { color: 'Белый, сталь' },
+    { color: 'Серебро; серебристый; хром' },
+  ]
 
   return (
     <div className='catalogContainer'>
@@ -64,33 +117,56 @@ export default connect(
             />
           </div>
           {section &&
-            <div className='openSection'>
-              <input type='checkbox' />
-              <p className='textCheckBox'>Text</p>
-            </div>
+            <>
+              {colorFilter.map((e, i) => (
+                <div className='openSection'>
+                  <input
+                    type='radio'
+                    name='color'
+                    id={`color-${i}`}
+                    onChange={() => handleChangeColor(e.color)}
+                  />
+                  <label htmlFor={`color-${i}`} className='textCheckBox'>{e.color}</label>
+                </div>
+              ))}
+            </>
           }
         </div>
         <div className='sectionFilter'>
           <div
-            onClick={() => setSection(prev => !prev)}
+            onClick={() => setSectionMat(prev => !prev)}
             className='closedSection'
           >
             <p className='headerClosedSection'>
               Материал
             </p>
             <img
-              style={section ? { rotate: "-90deg", transition: '0.2s' } : { transition: '0.2s' }}
+              style={sectionMat ? { rotate: "-90deg", transition: '0.2s' } : { transition: '0.2s' }}
               className='imgArrow'
               src={arrow}
             />
           </div>
-          {section &&
-            <div className='openSection'>
-              <input type='checkbox' />
-              <p className='textCheckBox'>Text</p>
-            </div>
+          {sectionMat &&
+            <>
+              {materialFilter.map((e, i) => (
+                <div className='openSection' key={i}>
+                  <input
+                    type='radio'
+                    name='material'
+                    id={`material-${i}`}
+                    onChange={() => handleChange(e.material)}
+                  />
+                  <label htmlFor={`material-${i}`} className='textCheckBox'>{e.material}</label>
+                </div>
+              ))}
+            </>
           }
         </div>
+        <button 
+          className='filterBtn'
+          onClick={() => filterBtn()}>
+            Показать
+        </button>
       </div>
       <div className='verticalLine'></div>
       <div className='catalogProductsContainer'>
@@ -98,42 +174,83 @@ export default connect(
           Каталог товаров
         </p>
         <div className='blockCards'>
-          {productData.map((e, i) => (
-            <div className='blockProductsInCatalog'>
-              <div className='productMiniCard'>
-                <Link
-                  style={{ textDecoration: "none" }}
-                  to={`/producCardPage/${e._id}`}
+          {productDataFilters.length === 0 ? (
+            productData.map((e, i) => (
+              <div className='blockProductsInCatalog' key={i}>
+                <div className='productMiniCard'>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={`/producCardPage/${e._id}`}
                   >
-                  <div className='imgProductMiniCard'>
-                    <img
-                      className='imgProductMiniCard'
-                      src={e.image.replace("./", "http://127.0.0.1:3000/")}
-                    />
+                    <div className='imgProductMiniCard'>
+                      <img
+                        className='imgProductMiniCard'
+                        src={e.image.replace("./", "http://127.0.0.1:3000/")}
+                        alt="Product"
+                      />
+                    </div>
+                  </Link>
+                  <div className='infoProductMiniCard'>
+                    <p className='miniTextInfo'>
+                      Описание товара
+                    </p>
+                    <p className='namedProductText'>
+                      {e.named}
+                    </p>
+                    <p className='priceText'>
+                      Цена:
+                    </p>
+                    <p className='numberPriceText'>
+                      {e.price} ₽
+                    </p>
+                    <button
+                      onClick={() => handleAddToCart(e)}
+                      className='addToCartBtn'>
+                      В корзину
+                    </button>
                   </div>
-                </Link>
-                <div className='infoProductMiniCard'>
-                  <p className='miniTextInfo'>
-                    Описание товара
-                  </p>
-                  <p className='namedProductText'>
-                    {e.named}
-                  </p>
-                  <p className='priceText'>
-                    Цена:
-                  </p>
-                  <p className='numberPriceText'>
-                    {e.price} ₽
-                  </p>
-                  <button
-                    onClick={() => handleAddToCart(e)}
-                    className='addToCartBtn'>
-                    В корзину
-                  </button>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            productDataFilters.map((e, i) => (
+              <div className='blockProductsInCatalog' key={i}>
+                <div className='productMiniCard'>
+                  <Link
+                    style={{ textDecoration: "none" }}
+                    to={`/producCardPage/${e._id}`}
+                  >
+                    <div className='imgProductMiniCard'>
+                      <img
+                        className='imgProductMiniCard'
+                        src={e.image.replace("./", "http://127.0.0.1:3000/")}
+                        alt="Product"
+                      />
+                    </div>
+                  </Link>
+                  <div className='infoProductMiniCard'>
+                    <p className='miniTextInfo'>
+                      Описание товара
+                    </p>
+                    <p className='namedProductText'>
+                      {e.named}
+                    </p>
+                    <p className='priceText'>
+                      Цена:
+                    </p>
+                    <p className='numberPriceText'>
+                      {e.price} ₽
+                    </p>
+                    <button
+                      onClick={() => handleAddToCart(e)}
+                      className='addToCartBtn'>
+                      В корзину
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
         </div>
       </div>
     </div>

@@ -9,4 +9,7 @@ export default class {
 
   static getProductById = (id) => 
     axios.get(`${api_url}product/${id}`);
+
+  static getFiltersProduct = ({color, material}) => 
+    axios.get(`${api_url}product?color=${color}&material=${material}`);
 }

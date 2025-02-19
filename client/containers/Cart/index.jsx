@@ -24,7 +24,6 @@ export default connect((s) => ({
     deleteProductToCart,
     productCart
   }) => {
-
     const navigate = useNavigate();
 
     React.useEffect(() => {
@@ -43,8 +42,6 @@ export default connect((s) => ({
       }
     }, [isLogined]);
 
-    console.log(productCart);
-
     const notify = () => toast.success('Спасибо за заказ. Вам позвонит менеджер', {
       position: "top-right",
       autoClose: 3000,
@@ -56,17 +53,20 @@ export default connect((s) => ({
       theme: "dark",
     });
 
+    function deletedProductInCart() {
+      toast.error('Товар удален из корзины', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
 
-    const notifyDrag = () => toast.error('Товар удален из корзины', {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
+    const totalPrice = productCart.reduce((sum, product) => sum + Number(product.price), 0);
 
     return (
       <div className='cartContainer'>
@@ -93,7 +93,19 @@ export default connect((s) => ({
                   </p>
                   <div>
                     <button
-                      onClick={() => deleteProductToCart({productId: e._id})}
+                      onClick={() => {
+                        toast.error('Товар удален из корзины', {
+                          position: "top-right",
+                          autoClose: 3000,
+                          hideProgressBar: false,
+                          closeOnClick: false,
+                          pauseOnHover: true,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "dark",
+                        });
+                        deleteProductToCart({productId: e._id})
+                      }}
                       className='btnCreateOrder'>
                       Удалить из корзины
                     </button>
@@ -107,7 +119,7 @@ export default connect((s) => ({
         <hr className='line' />
         <div className='createOrder'>
           <p className='createOrderText'>Ваш заказ</p>
-          <p className='priceOrderText'>Сумма 6000 ₽</p>
+          <p className='priceOrderText'>Сумма {totalPrice} ₽</p>
           <button
             onClick={notify}
             className='btnCreateOrder'>
