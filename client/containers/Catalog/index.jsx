@@ -1,28 +1,47 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 import './style.scss';
 
 import arrow from '../../assets/images/icons/arrow.png';
 import example from '../../assets/images/categoris/1.png';
+import { getAllProducts } from '../../store/actions/product.action';
+import { addProductToCart } from '../../store/actions/cart.action';
 
-
-
-export default () => {
+export default connect(
+  (s) => ({
+    id: s.user.userId,
+    productData: s.product.state
+  }),
+  {
+    getAllProducts,
+    addProductToCart
+  }
+)(({ productData, getAllProducts, addProductToCart }) => {
 
   const [section, setSection] = React.useState(true);
 
-  const notify = () => toast.success('Добавлено в корзину', {
-    position: "top-right",
-    autoClose: 3000,
-    hideProgressBar: false,
-    closeOnClick: false,
-    pauseOnHover: true,
-    draggable: true,
-    progress: undefined,
-    theme: "dark",
-  });
+  React.useEffect(() => {
+    getAllProducts();
+  }, []);
+
+  console.log('Product data:', productData);
+
+  const handleAddToCart = (product) => {
+    addProductToCart({ product }); // Добавляем товар в корзину
+    toast.success('Добавлено в корзину', {
+      position: "top-right",
+      autoClose: 3000,
+      hideProgressBar: false,
+      closeOnClick: false,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  };
 
   return (
     <div className='catalogContainer'>
@@ -79,74 +98,44 @@ export default () => {
           Каталог товаров
         </p>
         <div className='blockCards'>
-          <div className='blockProductsInCatalog'>
-            <div className='productMiniCard'>
-              <Link
-                style={{ textDecoration: "none" }}
-                to={'/producCardPage'}>
-                <div className='imgProductMiniCard'>
-                  <img
-                    className='imgProductMiniCard'
-                    src={example}
-                  />
+          {productData.map((e, i) => (
+            <div className='blockProductsInCatalog'>
+              <div className='productMiniCard'>
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to={`/producCardPage/${e._id}`}
+                  >
+                  <div className='imgProductMiniCard'>
+                    <img
+                      className='imgProductMiniCard'
+                      src={e.image.replace("./", "http://127.0.0.1:3000/")}
+                    />
+                  </div>
+                </Link>
+                <div className='infoProductMiniCard'>
+                  <p className='miniTextInfo'>
+                    Описание товара
+                  </p>
+                  <p className='namedProductText'>
+                    {e.named}
+                  </p>
+                  <p className='priceText'>
+                    Цена:
+                  </p>
+                  <p className='numberPriceText'>
+                    {e.price} ₽
+                  </p>
+                  <button
+                    onClick={() => handleAddToCart(e)}
+                    className='addToCartBtn'>
+                    В корзину
+                  </button>
                 </div>
-              </Link>
-              <div className='infoProductMiniCard'>
-                <p className='miniTextInfo'>
-                  Информация от товаре
-                </p>
-                <p className='namedProductText'>
-                  Кран красивый
-                </p>
-                <p className='priceText'>
-                  Цена:
-                </p>
-                <p className='numberPriceText'>
-                  3 200 ₽
-                </p>
-                <button
-                  onClick={notify}
-                  className='addToCartBtn'>
-                  В корзину
-                </button>
               </div>
             </div>
-          </div>
-          <div className='blockProductsInCatalog'>
-            <div className='productMiniCard'>
-              <Link
-                style={{ textDecoration: "none" }}
-                to={'/producCardPage'}>
-                <div className='imgProductMiniCard'>
-                  <img
-                    className='imgProductMiniCard'
-                    src={example}
-                  />
-                </div>
-              </Link>
-              <div className='infoProductMiniCard'>
-                <p className='miniTextInfo'>
-                  Информация от товаре
-                </p>
-                <p className='namedProductText'>
-                  Кран красивый
-                </p>
-                <p className='priceText'>
-                  Цена:
-                </p>
-                <p className='numberPriceText'>
-                  3 200 ₽
-                </p>
-                <button
-                  onClick={notify}
-                  className='addToCartBtn'>
-                  В корзину
-                </button>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
   )
-}
+})

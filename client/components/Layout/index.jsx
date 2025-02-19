@@ -12,6 +12,8 @@ import ProductCardPage from '../../pages/ProductCardPage';
 import Cart from '../../pages/Cart';
 import About from '../../pages/About';
 import Partner from '../../pages/Partner';
+import Login from '../../pages/Login';
+import Register from '../../pages/Register';
 
 export default connect(
   (s) => ({
@@ -43,10 +45,12 @@ export default connect(
         <Routes>
           <Route path={'/'} element={<HomePage />}/>
           <Route path={'/catalog'} element={<Catalog />}/>
-          <Route path={'/producCardPage'} element={<ProductCardPage />}/>
+          <Route path={'/producCardPage/:id'} element={<ProductCardPage />}/>
           <Route path={'/cart'} element={<Cart />}/>
           <Route path={'/aboutCompany'} element={<About />}/>
           <Route path={'/partners'} element={<Partner />}/>
+          <Route path={'/login'} element={<Login />}/>
+          <Route path={'/register'} element={<Register />}/>
         </Routes>
       </div>
     </>

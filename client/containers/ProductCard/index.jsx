@@ -1,28 +1,57 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import './style.scss';
+import { connect } from 'react-redux';
+import { getProductById } from '../../store/actions/product.action';
+import { useParams } from 'react-router-dom';
+import { addProductToCart } from '../../store/actions/cart.action';
 
 import photoProductCard from '../../assets/images/categoris/1.png';
 
-export default () => {
-    const notify = () => toast.success('Добавлено в корзину', {
-      position: "top-right",
-      autoClose: 3000,
-      hideProgressBar: false,
-      closeOnClick: false,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "dark",
-    });
-  
+export default connect(
+  (s) => ({
+    productByIdData: s.product.dataByIdProduct,
+  }),
+  {
+    getProductById,
+    addProductToCart
+  }
+)(({ 
+  productByIdData,
+  getProductById, 
+  addProductToCart 
+}) => {
+    const { id } = useParams();
+    console.log(productByIdData);
+
+    React.useEffect(() => {
+      if (!id) {
+        return <p>Товар не найден</p>
+      }
+      getProductById(id)
+    }, [id]);
+
+    function addToCartInProductCard(product) {
+      addProductToCart({product})
+      toast.success('Добавлено в корзину', {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
+
   return (
     <div className='productCardContainer'>
       <div className='leftBlockProductCard'>
         <div className='photoProductCard'>
           <div className='imgPhotoProductCard'>
             <img
-              src={photoProductCard}
+              src={productByIdData.image.replace("./", "http://127.0.0.1:3000/")}
               className='imgProductCard'
             />
           </div>
@@ -32,19 +61,16 @@ export default () => {
             Выгодная цена
           </div>
           <p className='headerNamedProduct'>
-            Смеситель для кухни <br />
-            Delinia Alena 32.1 см цвет хром
+            {productByIdData.named}
           </p>
           <p className='priceNumberProductCard'>
-            3 200 ₽
+            {productByIdData.price} ₽
           </p>
           <p className='descriptionTextProductCard'>
             Описание
           </p>
           <p className='descriptionProductCard'>
-            Давно выяснено, что при оценке дизайна и композиции читаемый
-            текст мешает сосредоточиться. Lorem Ipsum используют потому,
-            что тот обеспечивает более или менее
+            {productByIdData.description}
           </p>
         </div>
       </div>
@@ -55,10 +81,10 @@ export default () => {
           </p>
           <div className='textAndText'>
             <p className='namedText'>
-              Страна изготовитель: 
+              Цвет: 
             </p>
             <p className='named'>
-              Росиия
+              {productByIdData.color}
             </p>
           </div>
           <div className='textAndText'>
@@ -66,7 +92,7 @@ export default () => {
               Материалы: 
             </p>
             <p className='named'>
-              Сталь, железо
+              {productByIdData.material}
             </p>
           </div>
           <div className='textAndText'>
@@ -79,7 +105,7 @@ export default () => {
           </div>
           <div className='blockBtn'>
             <button
-              onClick={notify}
+              onClick={() => addToCartInProductCard(productByIdData)}
               className='addToCartProductCard'>
               Добавить товар в корзину
             </button>
@@ -89,4 +115,4 @@ export default () => {
       </div>
     </div>
   )
-}
+})

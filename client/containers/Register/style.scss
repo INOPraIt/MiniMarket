@@ -1,0 +1,73 @@
+.loginContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(255, 255, 255);
+  height: 93vh;
+
+  .blockLoginContainer {
+    width: 20%;
+    padding-bottom: 20px;
+    background-color: white;
+    border: 1px solid rgb(228, 228, 228);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 10px 10px 10px rgb(248, 248, 248);
+
+    .headerLogin {
+      font-family: "Rubik", serif;
+      font-weight: 500;
+      margin-top: 20px;
+      font-size: 19px;
+    }
+
+    .inputLogin {
+      transition: 0.2s;
+      width: 90%;
+      margin-top: 20px;
+      height: 40px;
+      border: 1px solid rgb(228, 228, 228);
+      border-radius: 5px;
+      font-family: "Rubik", serif;
+      padding-left: 10px;
+    }
+
+    .inputLogin:focus {
+      transition: 0.2s;
+      outline: none;
+      box-shadow: 0px 0px 5px rgba(57, 87, 255, 0.349);
+      border: 1px solid rgba(57, 87, 255, 0.349);
+    }
+
+    .inputLogin:focus:hover {
+      transition: 0.2s;
+      outline: none;
+      box-shadow: 0px 0px 5px rgba(57, 87, 255, 0.349);
+      border: 1px solid rgba(57, 87, 255, 0.349);
+    }
+
+    .btnLogin {
+      transition: 0.2s;
+      text-align: center;
+      background-color: rgb(57, 88, 255);
+      width: 90%;
+      margin-top: 40px;
+      height: 40px;
+      font-size: 16px;
+      border: none;
+      font-family: "Rubik", serif;
+      color: white;
+      cursor: pointer;
+    }
+
+    .linkNoAccaunt {
+      color: rgb(57, 88, 255);
+      text-decoration: none;
+      font-family: "Rubik", serif;
+      margin-top: 20px;
+    }
+  }
+}

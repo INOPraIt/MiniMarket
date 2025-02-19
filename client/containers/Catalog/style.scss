@@ -81,18 +81,37 @@
     .blockCards {
       display: flex;
       flex-wrap: wrap;
+      gap: 20px;
     }
 
     .productMiniCard {
+      height: 450px;
       width: 300px;
       border: 1px solid rgb(226, 226, 226);
+      overflow: hidden;
 
       .imgProductMiniCard {
         width: 100%;
+        height: 200px; // Фиксированная высота для изображений
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        object-fit: cover;
+
+        .miniTextInfo,
+        .namedProductText,
+        .priceText,
+        .numberPriceText {
+          margin: 10px 0;
+        }
       }
 
       .infoProductMiniCard {
         padding-bottom: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end; 
+        flex-grow: 1; 
 
         .miniTextInfo {
           font-size: 12px;
@@ -131,6 +150,7 @@
         }
 
         .addToCartBtn {
+          margin-top: auto;
           width: 93.7%;
           height: 40px;
           margin-left: 10px;

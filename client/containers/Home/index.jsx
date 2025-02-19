@@ -74,7 +74,7 @@ export default () => {
                   Для дома
                 </p>
                 <p className='textDescriptionIcons'>
-                  Брольшой выбор для частных домов
+                  Большой выбор для частных домов
                 </p>
               </div>
             </div>
@@ -89,7 +89,7 @@ export default () => {
                   Для квартир
                 </p>
                 <p className='textDescriptionIcons'>
-                  Так же подойдет для квартир
+                  Идеально впишется в любой интерьер
                 </p>
               </div>
             </div>
@@ -104,7 +104,7 @@ export default () => {
                   Для дачи
                 </p>
                 <p className='textDescriptionIcons'>
-                  Самое то для дачи
+                  Удобно, практично и долговечно
                 </p>
               </div>
             </div>
@@ -119,7 +119,7 @@ export default () => {
                   Лучшие цены
                 </p>
                 <p className='textDescriptionIcons'>
-                  Адекватные цены
+                  Цена-качество
                 </p>
               </div>
             </div>
