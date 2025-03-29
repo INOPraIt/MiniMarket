@@ -104,7 +104,7 @@ export default connect((s) => ({
                           progress: undefined,
                           theme: "dark",
                         });
-                        deleteProductToCart({productId: e._id})
+                        deleteProductToCart({ productId: e._id })
                       }}
                       className='btnCreateOrder'>
                       Удалить из корзины
@@ -121,11 +121,16 @@ export default connect((s) => ({
           <p className='createOrderText'>Ваш заказ</p>
           <p className='priceOrderText'>Сумма {totalPrice} ₽</p>
           <button
-            onClick={notify}
+            onClick={() => {
+              notify
+              setTimeout(() => {
+                navigate()
+              }, 3000)
+            }}
             className='btnCreateOrder'>
             Оформить заказ
           </button>
         </div>
       </div>
     )
-  })
+})

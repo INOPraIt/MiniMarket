@@ -22,14 +22,28 @@ export default connect(
   addProductToCart 
 }) => {
     const { id } = useParams();
-    console.log(productByIdData);
+    console.log(id);
 
+    if (!productByIdData || productByIdData.loading) {
+      return <p>Загрузка...</p>;
+    }
+    
+    if (productByIdData.error) {
+      return <p>Ошибка при загрузке товара</p>;
+    }
+
+    if (!productByIdData || !productByIdData.product) {
+      return <p>Товар не найден</p>;
+    }
+    
     React.useEffect(() => {
-      if (!id) {
-        return <p>Товар не найден</p>
+      if (id) {
+        getProductById(id);
       }
-      getProductById(id)
     }, [id]);
+
+    console.log('productByIdData', productByIdData);
+    
 
     function addToCartInProductCard(product) {
       addProductToCart({product})
@@ -47,6 +61,7 @@ export default connect(
 
   return (
     <div className='productCardContainer'>
+      {!productByIdData && <p>Товар не найден</p>}
       <div className='leftBlockProductCard'>
         <div className='photoProductCard'>
           <div className='imgPhotoProductCard'>

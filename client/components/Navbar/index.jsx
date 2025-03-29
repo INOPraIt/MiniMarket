@@ -24,7 +24,6 @@ export default connect((s) => ({
     const [cartCount, setCartCount] = React.useState(2);
 
     console.log('cart in nav', productCart.length);
-    
 
       const notifyDrag = () => toast.error('Для того чтобы смотреть корзину - авторизируйтесь', {
         position: "top-right",
@@ -38,7 +37,6 @@ export default connect((s) => ({
       });
 
       console.log(isLogined);
-      
 
     return (
       //Это JSX разметка - это HTML только он так называется потому что пишется внутри функции

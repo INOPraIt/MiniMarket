@@ -174,7 +174,7 @@ export default connect(
           Каталог товаров
         </p>
         <div className='blockCards'>
-          {productDataFilters.length === 0 ? (
+          {productDataFilters === null || productDataFilters.length === 0 ? (
             productData.map((e, i) => (
               <div className='blockProductsInCatalog' key={i}>
                 <div className='productMiniCard'>

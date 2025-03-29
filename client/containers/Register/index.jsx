@@ -38,9 +38,8 @@ export default connect((s) => ({
         console.log('hello');
       }
       if (isRegistred !== null)changeUserFieldAction({name: "registred", value: null}) 
-    }, [isRegistred])
+    }, [isRegistred]);
 
-    
   return (
     <div className='loginContainer'>
     <div className='blockLoginContainer'>
